@@ -1,65 +1,65 @@
-import { build } from 'esbuild'
+import fs from 'node:fs'
+import path from 'node:path'
+import { mkdir, rm } from 'node:fs/promises'
+import { cwd } from 'node:process'
 import { Generator } from 'npm-dts'
-import fs from 'node:fs';
-import path from 'node:path';
-import { mkdir , rm, } from "node:fs/promises";
+import { build } from 'esbuild'
 
 const stdout = console
 
 const targets: Parameters<typeof build>[0][] = [
   {
-    platform: "node",
-    outfile: "dist/index.js",
+    platform: 'node',
+    outfile: 'dist/index.js',
   },
   {
-    platform: "neutral",
-    format: "esm",
-    outfile: "dist/index.esm.js",
+    platform: 'neutral',
+    format: 'esm',
+    outfile: 'dist/index.esm.js',
   },
-];
+]
 
 async function prepare() {
-    const dist = path.join(process.cwd(), 'dist')
+  const dist = path.join(cwd(), 'dist')
 
-    if(fs.existsSync(dist)) {
-        await rm(dist, { recursive: true })
-    }
+  if (fs.existsSync(dist))
+    await rm(dist, { recursive: true })
 
-    await mkdir(dist)
+  await mkdir(dist)
 }
 
 async function generateTypes() {
-    const generator = new Generator({
-        entry: 'src/index.ts',
-        output: 'dist/index.d.ts'
-    })
+  const generator = new Generator({
+    entry: 'src/index.ts',
+    output: 'dist/index.d.ts',
+  })
 
-    await generator.generate()
+  await generator.generate()
 }
 
 async function buildTargets() {
-    for (const target of targets) {
-        await build({
-            entryPoints: ['src/index.ts'],
-            bundle: true,
-            minify: true,
-            treeShaking: true, 
-            ...target,
-        })
-    }
+  for (const target of targets) {
+    await build({
+      entryPoints: ['src/index.ts'],
+      bundle: true,
+      minify: true,
+      treeShaking: true,
+      ...target,
+    })
+  }
 }
 
 async function main() {
-    stdout.log('Building...')
-    await prepare()
-    
-    stdout.log('Building targets...')
-    await buildTargets();
+  stdout.log('Building...')
+  await prepare()
 
-    stdout.log('Generating types...')
-    await generateTypes()
+  stdout.log('Building targets...')
+  await buildTargets()
 
-    stdout.log('Done!')
+  stdout.log('Generating types...')
+  await generateTypes()
+
+  stdout.log('Done!')
 }
 
 main()
