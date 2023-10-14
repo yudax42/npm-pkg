@@ -2,10 +2,9 @@ import { build } from 'esbuild'
 import { Generator } from 'npm-dts'
 
 new Generator({
-  entry: "src/index.ts",
-  out: "dist/index.d.ts",
-}).generate();
-
+  entry: 'src/index.ts',
+  out: 'dist/index.d.ts',
+}).generate()
 
 const shared = {
   entryPoints: ['src/index.ts'],
@@ -27,5 +26,3 @@ build({
   format: 'esm',
   outfile: 'dist/index.esm.js',
 })
-
-
