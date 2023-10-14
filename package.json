@@ -7,10 +7,9 @@
   "keywords": [],
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
-  "typings": "index.d.ts",
+  "typings": "dist/index.d.ts",
   "files": [
-    "dist/*",
-    "index.d.ts"
+    "dist/*"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
