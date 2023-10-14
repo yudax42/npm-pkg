@@ -4,6 +4,7 @@ import { mkdir, rm } from 'node:fs/promises'
 import { cwd } from 'node:process'
 import { Generator } from 'npm-dts'
 import { build } from 'esbuild'
+import { dependencies, devDependencies } from '../package.json'
 
 const stdout = console
 
@@ -44,6 +45,7 @@ async function buildTargets() {
       bundle: true,
       minify: true,
       treeShaking: true,
+      external: Object.keys(devDependencies).concat(Object.keys(dependencies)),
       ...target,
     })
   }
