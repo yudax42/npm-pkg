@@ -1,4 +1,4 @@
-declare module 'package-boilerplate/build' {
+declare module 'package-boilerplate/scripts/build' {
   export {};
 
 }

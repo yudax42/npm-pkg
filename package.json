@@ -2,22 +2,26 @@
   "name": "package-boilerplate",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "typings": "index.d.ts",
   "files": [
-    "dist"
+    "dist/*",
+    "index.d.ts"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "ts-node scripts/build.ts",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint",
+    "version": "npm run build && git add -A src",
+    "postversion": "git push && git push --tags"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@antfu/eslint-config": "1.0.0-beta.27",
     "esbuild": "^0.19.4",
